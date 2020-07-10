@@ -1,0 +1,22 @@
+{
+  "name": "guess-who-infinite-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conswang/guess-who-infinite-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conswang/guess-who-infinite-server/issues"
+  },
+  "homepage": "https://github.com/conswang/guess-who-infinite-server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
