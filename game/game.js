@@ -24,17 +24,19 @@ class Game {
     }
   }
 
+  // returns true if question and answer is ready to start
   selectCard(id, cardIdx) {
     this.getPlayer(id).selectCard(cardIdx);
+    return this.player1.selectedCard != undefined && this.player2.selectedCard != undefined;
   }
 
   guess(id, cardIdx) {
     // player 1 guesses
     if (this.player1.id === id) {
-      return cardIdx === this.player2.selectCard;
+      return cardIdx === this.player2.selectedCard;
     } else {
       // player 2 guesses
-      return cardIdx === this.player1.selectCard;
+      return cardIdx === this.player1.selectedCard;
     }
   }
 
