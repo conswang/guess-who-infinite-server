@@ -35,12 +35,20 @@ const roomToGameMap = new Map();
 
 io.on('connection', client => {
 
+  function getGameByClientId(id) {
+    id.rooms.forEach(room => {
+      if (roomToGameMap.has(room)) {
+        return roomToGameMap.get(room);
+      }
+    });
+  }
+
   client.on('createGame', function (name) {
     const numOfGames = roomToGameMap.size;
     const room = `ROOM${numOfGames}`;
     // create room and create the game
     client.join(room);
-    roomToGameMap.set(room, new Game(name, client.id));
+    roomToGameMap.set(room, new Game(name, client.id, room, 24));
 
     client.emit(room);
 
@@ -59,6 +67,23 @@ io.on('connection', client => {
     } else {
       // TODO: emit error to client: Join Code is invalid
     }
+  });
+
+  client.on('selectCard', function (cardIdx) {
+
+  });
+
+  client.on('ask', function (question) {
+
+  });
+
+  
+  client.on('answer', function (isTrue) {
+
+  });
+
+  client.on('guess', function (cardIdx) {
+
   });
 
 });

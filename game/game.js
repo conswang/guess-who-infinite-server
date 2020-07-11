@@ -1,15 +1,41 @@
+const Player = require('./player.js');
+
 class Game {
 
-  constructor(player1, player1Id) {
-    this.player1 = player1;
-    this.playerId = player1Id;
+  constructor(player1Name, player1Id, room, numOfCards) {
+    this.player1 = new Player(player1Name, player1Id);
+    this.room = room;
     this.isOpen = true;
+    this.numOfCards = numOfCards;
   }
 
-  addPlayer(player2, player2Id) {
-    this.player2 = player2;
-    this.player2Id = player2Id;
+  // once second player is added then game has started
+  addPlayer(player2Name, player2Id) {
+    this.player2 = new Player(player2Name, player2Id);
     this.isOpen = false;
+  }
+
+  // helper method to get player 1 or player 2 by id
+  getPlayer(id) {
+    if (this.player1.id === id) {
+      return this.player1;
+    } else {
+      return this.player2;
+    }
+  }
+
+  selectCard(id, cardIdx) {
+    this.getPlayer(id).selectCard(cardIdx);
+  }
+
+  guess(id, cardIdx) {
+    // player 1 guesses
+    if (this.player1.id === id) {
+      return cardIdx === this.player2.selectCard;
+    } else {
+      // player 2 guesses
+      return cardIdx === this.player1.selectCard;
+    }
   }
 
 }
