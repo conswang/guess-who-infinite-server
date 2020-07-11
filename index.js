@@ -89,6 +89,16 @@ io.on('connection', client => {
     console.log(roomToGameMap);
   });
 
+  // emits 'ask' | 'answer' back to client
+  client.on('getTurn', function () {
+    let game = getGameByClient(client);
+    if (client.id === game.player1.id) {
+      client.emit('turn', 'ask');
+    } else {
+      client.emit('turn', 'answer');
+    }
+  });
+
   client.on('ask', function (question) {
     let room = getGameByClient(client).room;
     // emit question to other player only
