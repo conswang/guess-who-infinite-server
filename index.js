@@ -102,7 +102,10 @@ io.on('connection', client => {
   });
 
   client.on('guess', function (cardIdx) {
-
+    let game = getGameByClient(client);
+    let result = game.guess(client.id, cardIdx);
+    // emit result to both players in form { winner: 'bob'; guess: 'correct' }
+    io.in(game.room).emit('gameEnded', result);
   });
 
 });

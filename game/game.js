@@ -33,10 +33,18 @@ class Game {
   guess(id, cardIdx) {
     // player 1 guesses
     if (this.player1.id === id) {
-      return cardIdx === this.player2.selectedCard;
+      if (cardIdx === this.player2.selectedCard) {
+        return { winner: this.player1.name, guess: true };
+      } else {
+        return { winner: this.player2.name, guess: false };
+      }
     } else {
       // player 2 guesses
-      return cardIdx === this.player1.selectedCard;
+      if (cardIdx === this.player1.selectedCard) {
+        return { winner: this.player2.name, guess: true };
+      } else {
+        return { winner: this.player1.name, guess: false };
+      }
     }
   }
 
