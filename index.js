@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const category = require('./routes/category');
+const Game = require('./game/game.js');
 
 const app = express();
 // Bodyparser Middleware
@@ -30,4 +31,34 @@ const server = app.listen(process.env.PORT || 5000, function () {
 
 const io = require('socket.io')(server, { perMessageDeflate: false });
 
-io.on('connection', socket => { console.log('connected to socket') });
+const roomToGameMap = new Map();
+
+io.on('connection', client => {
+
+  client.on('createGame', function (name) {
+    const numOfGames = roomToGameMap.size;
+    const room = `ROOM${numOfGames}`;
+    // create room and create the game
+    client.join(room);
+    roomToGameMap.set(room, new Game(name, client.id));
+
+    client.emit(room);
+
+    console.log(roomToGameMap);
+  });
+  
+  client.on('joinGame', function (name, room) {
+    if (roomToGameMap.has(room)) {
+      // join room and join the game
+      client.join(room);
+      let game = roomToGameMap.get(room);
+      game.addPlayer(name, client.id);
+
+      console.log(roomToGameMap);
+
+    } else {
+      // TODO: emit error to client: Join Code is invalid
+    }
+  });
+
+});
