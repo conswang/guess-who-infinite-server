@@ -87,7 +87,8 @@ io.on('connection', client => {
       const canStartQuestions = game.selectCard(client.id, cardIdx);
 
       if (canStartQuestions) {
-        client.emit('startedQuestions');
+        // tell both players questions have started
+        io.in(game.room).emit('startedQuestions');
         console.log('SELECT CARD: Both players selected cards - can start questions');
       } else {
         client.emit('waitingForSelection');
