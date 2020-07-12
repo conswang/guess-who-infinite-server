@@ -100,14 +100,14 @@ io.on('connection', client => {
     }
   });
 
-  // emits 'ask' | 'answer' back to client
+  // emits 'ask' | 'wait' back to client
   client.on('getTurn', function () {
     let game = getGameByClient(client);
     if (game) {
       if (client.id === game.player1.id) {
         client.emit('turn', 'ask');
       } else {
-        client.emit('turn', 'answer');
+        client.emit('turn', 'wait');
       }
     } else {
       console.log(`GET TURN: Invalid client id ${client.id}`)
