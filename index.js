@@ -156,8 +156,9 @@ io.on('connection', client => {
     let game = getGameByClient(client);
     if (game) {
       let result = game.guess(client.id, cardIdx);
-      // emit result to both players in form { winner: 'bob'; guess: 'correct' }
-      io.in(game.room).emit('gameEnded', { ...result, youWin: game.winnerId === client.id });
+      // emit result to both players in form { winner: 'bob'; guess: game.winnerId !== client.id'correct' }
+      client.to(game.room).emit('gameEnded', { ...result, youWin: game.winnerId !== client.id });
+      client.emit('gameEnded', {...result, youWin: game.winnerId === client.id})
     } else {
       console.log(`GUESS: Invalid client id ${client.id}`)
     }
