@@ -33,13 +33,13 @@ const google = new Scraper({
 });
 
 // make request to /api/images/bananas to search bananas
-app.get('/api/images/:searchstring', function (req, res) {
-  google.scrape(req.params.searchstring, 24)
-    .then(results => {
-      let mappedResults = results.map(image => { return { img: image.url, selected: false }});
-      res.send(mappedResults);
-    });
-})
+// app.get('/api/images/:searchstring', function (req, res) {
+//   google.scrape(req.params.searchstring, 24)
+//     .then(results => {
+//       let mappedResults = results.map(image => { return { img: image.url, selected: false }});
+//       res.send(mappedResults);
+//     });
+// })
 
 const server = app.listen(process.env.PORT || 5000, function () {
   console.log('Example app listening on port 5000!');
@@ -162,5 +162,13 @@ io.on('connection', client => {
       console.log(`GUESS: Invalid client id ${client.id}`)
     }
   });
+
+  client.on('getImages', function (category) {
+    google.scrape(category, 24)
+    .then(results => {
+      let mappedResults = results.map(image => { return { img: image.url, selected: false }});
+      client.emit('returnImages', mappedResults);
+    })
+  })
 
 });
