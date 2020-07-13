@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const category = require('./routes/category');
 const Game = require('./game/game.js');
+const Scraper = require('images-scraper');
 
 const app = express();
 // Bodyparser Middleware
@@ -22,6 +23,23 @@ app.use('/api/category', category)
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
+
+// image scraping----------------------------------------------
+
+const google = new Scraper({
+  puppeteer: {
+    headless: false,
+  }
+});
+
+// make request to /api/images/bananas to search bananas
+app.get('/api/images/:searchstring', function (req, res) {
+  google.scrape(req.params.searchstring, 24)
+    .then(results => {
+      let mappedResults = results.map(image => { return { img: image.url, selected: false }});
+      res.send(mappedResults);
+    });
+})
 
 const server = app.listen(process.env.PORT || 5000, function () {
   console.log('Example app listening on port 5000!');
