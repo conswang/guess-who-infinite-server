@@ -28,7 +28,6 @@ app.get('/', function (req, res) {
 
 const google = new Scraper({
   puppeteer: {
-    headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   }
 });
