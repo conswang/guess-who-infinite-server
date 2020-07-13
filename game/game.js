@@ -2,9 +2,10 @@ const Player = require('./player.js');
 
 class Game {
 
-  constructor(player1Name, player1Id, room, numOfCards) {
+  constructor(player1Name, player1Id, room, category, numOfCards) {
     this.player1 = new Player(player1Name, player1Id);
     this.room = room;
+    this.category = category;
     this.isOpen = true;
     this.numOfCards = numOfCards;
   }

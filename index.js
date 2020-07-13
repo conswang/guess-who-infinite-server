@@ -66,12 +66,12 @@ io.on('connection', client => {
     return foundRoom;
   }
 
-  client.on('createGame', function (name) {
+  client.on('createGame', function (name, category) {
     const numOfGames = roomToGameMap.size;
     const room = `ROOM${numOfGames}`;
     // create room and create the game
     client.join(room);
-    roomToGameMap.set(room, new Game(name, client.id, room, 24));
+    roomToGameMap.set(room, new Game(name, client.id, room, category, 24));
 
     // emit the room's code back!
     client.emit('createdGame', room);
@@ -86,8 +86,8 @@ io.on('connection', client => {
       let game = roomToGameMap.get(room);
       game.addPlayer(name, client.id);
 
-      // tell both players game has started
-      io.in(room).emit('startedGame');
+      // tell both players game has started and what category it is
+      io.in(room).emit('startedGame', game.category);
 
       console.log(`JOIN GAME: game has started`);
 
