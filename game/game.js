@@ -35,16 +35,20 @@ class Game {
     // player 1 guesses
     if (this.player1.id === id) {
       if (cardIdx === this.player2.selectedCard) {
-        return { youWin: true, guess: true, game: this };
+        this.winnerId = this.player1.id
+        return { guess: true, game: this };
       } else {
-        return { youWin: false, guess: false, game: this };
+        this.winnerId = this.player2.id
+        return { guess: false, game: this };
       }
     } else {
       // player 2 guesses
       if (cardIdx === this.player1.selectedCard) {
-        return { youWin: true, guess: true, game: this };
+        this.winnerId = this.player2.id
+        return { guess: true, game: this };
       } else {
-        return { youWin: false, guess: false, game: this };
+        this.winnerId = this.player1.id
+        return { guess: false, game: this };
       }
     }
   }
